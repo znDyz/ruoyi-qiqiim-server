@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.mobileAPI.chat.mapper.TbChatRecordMapper">
+    
+    <resultMap type="TbChatRecord" id="TbChatRecordResult">
+        <result property="id"    column="id"    />
+        <result property="userid"    column="userid"    />
+        <result property="friendid"    column="friendid"    />
+        <result property="hasRead"    column="has_read"    />
+        <result property="createtime"    column="createtime"    />
+        <result property="hasDelete"    column="has_delete"    />
+        <result property="message"    column="message"    />
+    </resultMap>
+
+    <sql id="selectTbChatRecordVo">
+        select id, userid, friendid, has_read, createtime, has_delete, message from tb_chat_record
+    </sql>
+
+    <select id="selectTbChatRecordList" parameterType="TbChatRecord" resultMap="TbChatRecordResult">
+        <include refid="selectTbChatRecordVo"/>
+        <where>  
+            <if test="userid != null  and userid != ''"> and userid = #{userid}</if>
+            <if test="friendid != null  and friendid != ''"> and friendid = #{friendid}</if>
+            <if test="hasRead != null "> and has_read = #{hasRead}</if>
+            <if test="createtime != null "> and createtime = #{createtime}</if>
+            <if test="hasDelete != null "> and has_delete = #{hasDelete}</if>
+            <if test="message != null  and message != ''"> and message = #{message}</if>
+        </where>
+    </select>
+    
+    <select id="selectTbChatRecordById" parameterType="String" resultMap="TbChatRecordResult">
+        <include refid="selectTbChatRecordVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTbChatRecord" parameterType="TbChatRecord">
+        insert into tb_chat_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="userid != null  and userid != ''">userid,</if>
+            <if test="friendid != null  and friendid != ''">friendid,</if>
+            <if test="hasRead != null ">has_read,</if>
+            <if test="createtime != null ">createtime,</if>
+            <if test="hasDelete != null ">has_delete,</if>
+            <if test="message != null  and message != ''">message,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="userid != null  and userid != ''">#{userid},</if>
+            <if test="friendid != null  and friendid != ''">#{friendid},</if>
+            <if test="hasRead != null ">#{hasRead},</if>
+            <if test="createtime != null ">#{createtime},</if>
+            <if test="hasDelete != null ">#{hasDelete},</if>
+            <if test="message != null  and message != ''">#{message},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbChatRecord" parameterType="TbChatRecord">
+        update tb_chat_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userid != null  and userid != ''">userid = #{userid},</if>
+            <if test="friendid != null  and friendid != ''">friendid = #{friendid},</if>
+            <if test="hasRead != null ">has_read = #{hasRead},</if>
+            <if test="createtime != null ">createtime = #{createtime},</if>
+            <if test="hasDelete != null ">has_delete = #{hasDelete},</if>
+            <if test="message != null  and message != ''">message = #{message},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbChatRecordById" parameterType="String">
+        delete from tb_chat_record where id = #{id}
+    </delete>
+
+    <delete id="deleteTbChatRecordByIds" parameterType="String">
+        delete from tb_chat_record where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

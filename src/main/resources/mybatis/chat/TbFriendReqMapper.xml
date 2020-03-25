@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.mobileAPI.chat.mapper.TbFriendReqMapper">
+    
+    <resultMap type="TbFriendReq" id="TbFriendReqResult">
+        <result property="id"    column="id"    />
+        <result property="fromUserid"    column="from_userid"    />
+        <result property="toUserid"    column="to_userid"    />
+        <result property="createtime"    column="createtime"    />
+        <result property="message"    column="message"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectTbFriendReqVo">
+        select id, from_userid, to_userid, createtime, message, status from tb_friend_req
+    </sql>
+
+    <select id="selectTbFriendReqList" parameterType="TbFriendReq" resultMap="TbFriendReqResult">
+        <include refid="selectTbFriendReqVo"/>
+        <where>  
+            <if test="fromUserid != null  and fromUserid != ''"> and from_userid = #{fromUserid}</if>
+            <if test="toUserid != null  and toUserid != ''"> and to_userid = #{toUserid}</if>
+            <if test="createtime != null "> and createtime = #{createtime}</if>
+            <if test="message != null  and message != ''"> and message = #{message}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectTbFriendReqById" parameterType="String" resultMap="TbFriendReqResult">
+        <include refid="selectTbFriendReqVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTbFriendReq" parameterType="TbFriendReq">
+        insert into tb_friend_req
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">id,</if>
+            <if test="fromUserid != null  and fromUserid != ''">from_userid,</if>
+            <if test="toUserid != null  and toUserid != ''">to_userid,</if>
+            <if test="createtime != null ">createtime,</if>
+            <if test="message != null  and message != ''">message,</if>
+            <if test="status != null ">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null  and id != ''">#{id},</if>
+            <if test="fromUserid != null  and fromUserid != ''">#{fromUserid},</if>
+            <if test="toUserid != null  and toUserid != ''">#{toUserid},</if>
+            <if test="createtime != null ">#{createtime},</if>
+            <if test="message != null  and message != ''">#{message},</if>
+            <if test="status != null ">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbFriendReq" parameterType="TbFriendReq">
+        update tb_friend_req
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fromUserid != null  and fromUserid != ''">from_userid = #{fromUserid},</if>
+            <if test="toUserid != null  and toUserid != ''">to_userid = #{toUserid},</if>
+            <if test="createtime != null ">createtime = #{createtime},</if>
+            <if test="message != null  and message != ''">message = #{message},</if>
+            <if test="status != null ">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbFriendReqById" parameterType="String">
+        delete from tb_friend_req where id = #{id}
+    </delete>
+
+    <delete id="deleteTbFriendReqByIds" parameterType="String">
+        delete from tb_friend_req where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
