@@ -27,8 +27,16 @@ public class SysDeptServiceImpl implements ISysDeptService
     private SysDeptMapper deptMapper;
 
     /**
-     * 查询部门管理数据
-     * 
+     * 查询部门管理数据(不包含数据权限)
+     */
+    @Override
+    public List<SysDept> selectDeptListAll(SysDept dept)
+    {
+        return deptMapper.selectDeptListAll(dept);
+    }
+
+    /**
+     * 查询部门管理数据(包含数据权限)
      * @param dept 部门信息
      * @return 部门信息集合
      */
