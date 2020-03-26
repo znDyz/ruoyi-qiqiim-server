@@ -61,7 +61,18 @@ public class SysDeptController extends BaseController
     }
 
     /**
-     * 获取部门下拉树列表
+     * 获取部门下拉树列表(不包含数据权限)
+     */
+    @ApiOperation("获取部门下拉树列表")
+    @GetMapping("/treeselectAll")
+    public AjaxResult treeselectAll(SysDept dept)
+    {
+        List<SysDept> depts = deptService.selectDeptListAll(dept);
+        return AjaxResult.success(deptService.buildDeptTreeSelect(depts));
+    }
+
+    /**
+     * 获取部门下拉树列表(包含数据权限)
      */
     @ApiOperation("获取部门下拉树列表")
     @GetMapping("/treeselect")
