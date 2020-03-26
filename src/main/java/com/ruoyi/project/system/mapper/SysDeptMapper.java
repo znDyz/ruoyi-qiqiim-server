@@ -11,9 +11,17 @@ import com.ruoyi.project.system.domain.SysDept;
  */
 public interface SysDeptMapper
 {
+
     /**
      * 查询部门管理数据
-     * 
+     * (不包含数据权限)
+     * @param dept 部门信息
+     * @return 部门信息集合
+     */
+    public List<SysDept> selectDeptListAll(SysDept dept);
+    /**
+     * 查询部门管理数据
+     * (包含数据权限)
      * @param dept 部门信息
      * @return 部门信息集合
      */
