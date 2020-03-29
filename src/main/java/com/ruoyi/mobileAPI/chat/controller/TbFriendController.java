@@ -1,6 +1,9 @@
 package com.ruoyi.mobileAPI.chat.controller;
 
 import java.util.List;
+
+import com.ruoyi.common.constant.HttpStatus;
+import com.ruoyi.project.system.domain.SysUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +35,16 @@ public class TbFriendController extends BaseController
 {
     @Autowired
     private ITbFriendService tbFriendService;
+
+    /**
+     * 获取用户好友列表
+     */
+    @GetMapping("/getFriends")
+    public AjaxResult getFriends(TbFriend tbFriend)
+    {
+       List<SysUser> list = tbFriendService.getFriends(tbFriend);
+       return new AjaxResult(HttpStatus.SUCCESS,"操作成功",list);
+    }
 
     /**
      * 查询聊天功能列表
