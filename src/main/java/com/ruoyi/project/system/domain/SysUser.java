@@ -27,6 +27,10 @@ public class SysUser extends BaseEntity
     @Excel(name = "用户序号", cellType = ColumnType.NUMERIC, prompt = "用户编号")
     private Long userId;
 
+    /** UUID */
+    @Excel(name = "UUID")
+    private String uuid;
+
     /** 部门ID */
     @Excel(name = "部门编号", type = Type.IMPORT)
     private Long deptId;
@@ -94,6 +98,16 @@ public class SysUser extends BaseEntity
     public SysUser()
     {
 
+    }
+
+    public String getUuid()
+    {
+        return uuid;
+    }
+
+    public void setUuid(String uuid)
+    {
+        this.uuid = uuid;
     }
 
     public SysUser(Long userId)
@@ -302,6 +316,7 @@ public class SysUser extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("userId", getUserId())
+            .append("UUID", getUuid())
             .append("deptId", getDeptId())
             .append("userName", getUserName())
             .append("nickName", getNickName())
