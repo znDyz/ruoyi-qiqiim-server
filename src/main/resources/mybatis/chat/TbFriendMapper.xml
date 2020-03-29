@@ -12,13 +12,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createtime"    column="createtime"    />
     </resultMap>
 
+    <resultMap type="SysUser" id="SysUserResult">
+        <id     property="userId"       column="user_id"      />
+        <result property="uuid"      	column="uuid"         />
+        <result property="deptId"       column="dept_id"      />
+        <result property="userName"     column="user_name"    />
+        <result property="nickName"     column="nick_name"    />
+        <result property="email"        column="email"        />
+        <result property="phonenumber"  column="phonenumber"  />
+        <result property="sex"          column="sex"          />
+        <result property="avatar"       column="avatar"       />
+        <result property="remark"       column="remark"       />
+    </resultMap>
+
     <sql id="selectTbFriendVo">
         select id, userid, friends_id, comments, createtime from tb_friend
     </sql>
 
+    <select id="getFriends" parameterType="TbFriend" resultMap="SysUserResult">
+        SELECT a.* FROM `sys_user` a WHERE user_id IN (
+            SELECT friends_id FROM `tb_friend` WHERE userid=#{userid}
+        )
+    </select>
+
+
     <select id="selectTbFriendList" parameterType="TbFriend" resultMap="TbFriendResult">
         <include refid="selectTbFriendVo"/>
-        <where>  
+        <where>
             <if test="userid != null  and userid != ''"> and userid = #{userid}</if>
             <if test="friendsId != null  and friendsId != ''"> and friends_id = #{friendsId}</if>
             <if test="comments != null  and comments != ''"> and comments = #{comments}</if>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.mobileAPI.chat.mapper.UserMessageMapper">
+    
+    <resultMap type="UserMessage" id="UserMessageResult">
+        <result property="id"    column="id"    />
+        <result property="senduser"    column="senduser"    />
+        <result property="receiveuser"    column="receiveuser"    />
+        <result property="groupid"    column="groupid"    />
+        <result property="isread"    column="isread"    />
+        <result property="type"    column="type"    />
+        <result property="content"    column="content"    />
+        <result property="createuser"    column="createuser"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="updatedate"    column="updatedate"    />
+    </resultMap>
+
+    <sql id="selectUserMessageVo">
+        select id, senduser, receiveuser, groupid, isread, type, content, createuser, createdate, updatedate from user_message
+    </sql>
+
+    <select id="selectUserMessageList" parameterType="UserMessage" resultMap="UserMessageResult">
+        <include refid="selectUserMessageVo"/>
+        <where>  
+            <if test="senduser != null  and senduser != ''"> and senduser = #{senduser}</if>
+            <if test="receiveuser != null  and receiveuser != ''"> and receiveuser = #{receiveuser}</if>
+            <if test="groupid != null  and groupid != ''"> and groupid = #{groupid}</if>
+            <if test="isread != null "> and isread = #{isread}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="createuser != null "> and createuser = #{createuser}</if>
+            <if test="createdate != null "> and createdate = #{createdate}</if>
+            <if test="updatedate != null "> and updatedate = #{updatedate}</if>
+        </where>
+    </select>
+    
+    <select id="selectUserMessageById" parameterType="Long" resultMap="UserMessageResult">
+        <include refid="selectUserMessageVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertUserMessage" parameterType="UserMessage" useGeneratedKeys="true" keyProperty="id">
+        insert into user_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="senduser != null  and senduser != ''">senduser,</if>
+            <if test="receiveuser != null  and receiveuser != ''">receiveuser,</if>
+            <if test="groupid != null  and groupid != ''">groupid,</if>
+            <if test="isread != null ">isread,</if>
+            <if test="type != null ">type,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="createuser != null ">createuser,</if>
+            <if test="createdate != null ">createdate,</if>
+            <if test="updatedate != null ">updatedate,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="senduser != null  and senduser != ''">#{senduser},</if>
+            <if test="receiveuser != null  and receiveuser != ''">#{receiveuser},</if>
+            <if test="groupid != null  and groupid != ''">#{groupid},</if>
+            <if test="isread != null ">#{isread},</if>
+            <if test="type != null ">#{type},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="createuser != null ">#{createuser},</if>
+            <if test="createdate != null ">#{createdate},</if>
+            <if test="updatedate != null ">#{updatedate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUserMessage" parameterType="UserMessage">
+        update user_message
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="senduser != null  and senduser != ''">senduser = #{senduser},</if>
+            <if test="receiveuser != null  and receiveuser != ''">receiveuser = #{receiveuser},</if>
+            <if test="groupid != null  and groupid != ''">groupid = #{groupid},</if>
+            <if test="isread != null ">isread = #{isread},</if>
+            <if test="type != null ">type = #{type},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="createuser != null ">createuser = #{createuser},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+            <if test="updatedate != null ">updatedate = #{updatedate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUserMessageById" parameterType="Long">
+        delete from user_message where id = #{id}
+    </delete>
+
+    <delete id="deleteUserMessageByIds" parameterType="String">
+        delete from user_message where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
