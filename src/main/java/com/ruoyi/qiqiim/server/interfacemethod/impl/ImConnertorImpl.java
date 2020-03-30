@@ -166,7 +166,7 @@ public class ImConnertorImpl implements ImConnertor{
 				  MessageWrapper wrapper1 =  proxy.getReConnectionStateMsg(sessionId0);
                   pushMessage(wrapper1);
               } else {
-                  log.info("用户首次链接 -> " + sessionId + ", sessionId0 -> " + sessionId0 + ", ctx -> " + ctx.toString());
+                  log.info("用户首次链接 -> 用户sessionID:" + sessionId);
                   sessionManager.createSession(wrapper, ctx);
                   setChannelSessionId(ctx, sessionId);	//将sessionId值设置进channel的AttributeMap
                   log.info("create channel attr sessionId " + sessionId + " successful, ctx -> " + ctx.toString());
