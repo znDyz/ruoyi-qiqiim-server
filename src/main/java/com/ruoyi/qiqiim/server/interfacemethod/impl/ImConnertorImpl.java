@@ -159,7 +159,7 @@ public class ImConnertorImpl implements ImConnertor{
     @Override
     public void connect(ChannelHandlerContext ctx, MessageWrapper wrapper) {
         try {
-        	  String sessionId = wrapper.getSessionId();	//用户提交上来的sessionId
+        	  String sessionId = wrapper.getSessionId();	//用户提交上来的sessionId,也就是用户UUID
         	  String sessionId0 = getChannelSessionId(ctx);	//channel中存储的channelID
               if (StringUtils.isNotEmpty(sessionId0) || sessionId.equals(sessionId0)) {
                   log.info("用户重新链接 -> 用户sessionID:" + sessionId);
