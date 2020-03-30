@@ -33,10 +33,16 @@ public class UserMessageController extends BaseController
     @Autowired
     private IUserMessageService userMessageService;
 
-    /**
-     * 查询聊天功能列表
-     */
-    @PreAuthorize("@ss.hasPermi('chat:message:list')")
+    //查询聊天信息列表
+    @GetMapping("/history")
+    public TableDataInfo history(UserMessage userMessage)
+    {
+        startPage();
+        List<UserMessage> list = userMessageService.selectUserMessagehistory(userMessage);
+        return getDataTable(list);
+    }
+
+    //查询聊天功能列表
     @GetMapping("/list")
     public TableDataInfo list(UserMessage userMessage)
     {
@@ -45,10 +51,7 @@ public class UserMessageController extends BaseController
         return getDataTable(list);
     }
 
-    /**
-     * 导出聊天功能列表
-     */
-    @PreAuthorize("@ss.hasPermi('chat:message:export')")
+    //导出聊天功能列表
     @Log(title = "聊天功能", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
     public AjaxResult export(UserMessage userMessage)
@@ -58,20 +61,14 @@ public class UserMessageController extends BaseController
         return util.exportExcel(list, "message");
     }
 
-    /**
-     * 获取聊天功能详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('chat:message:query')")
+    //获取聊天功能详细信息
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
         return AjaxResult.success(userMessageService.selectUserMessageById(id));
     }
 
-    /**
-     * 新增聊天功能
-     */
-    @PreAuthorize("@ss.hasPermi('chat:message:add')")
+    //新增聊天功能
     @Log(title = "聊天功能", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody UserMessage userMessage)
@@ -79,10 +76,7 @@ public class UserMessageController extends BaseController
         return toAjax(userMessageService.insertUserMessage(userMessage));
     }
 
-    /**
-     * 修改聊天功能
-     */
-    @PreAuthorize("@ss.hasPermi('chat:message:edit')")
+    //修改聊天功能
     @Log(title = "聊天功能", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody UserMessage userMessage)
@@ -90,10 +84,7 @@ public class UserMessageController extends BaseController
         return toAjax(userMessageService.updateUserMessage(userMessage));
     }
 
-    /**
-     * 删除聊天功能
-     */
-    @PreAuthorize("@ss.hasPermi('chat:message:remove')")
+    //删除聊天功能
     @Log(title = "聊天功能", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)

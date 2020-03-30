@@ -47,8 +47,7 @@ public class SessionManagerImpl implements SessionManager {
         ImChannelGroup.add(session.getSession());
         //全员发送上线消息
         MessageProto.Model model = proxy.getOnLineStateMsg(session.getAccount());
-        ImChannelGroup.broadcast(model);
-        //DwrUtil.sedMessageToAll(model);
+        ImChannelGroup.broadcast(model);//广播
         log.debug("put a session " + session.getAccount() + " to sessions!");
         log.debug("session size " + sessions.size() );
     }
