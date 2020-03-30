@@ -94,7 +94,8 @@ public class TokenService
      */
     public String createToken(LoginUser loginUser)
     {
-        String token = IdUtils.fastUUID();
+        //String token = IdUtils.fastUUID();
+        String token = loginUser.getUser().getUuid();//数据库中保存的用户uuid
         loginUser.setToken(token);      //设置用户token
         setUserAgent(loginUser);        //设置用户其他相关信息
         refreshToken(loginUser);         // 刷新令牌有效期，设置用户登录时间和用户到期时间，以login_tokens:+uuid 为key，缓存loginUser对象
